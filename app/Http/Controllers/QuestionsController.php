@@ -70,6 +70,9 @@ class QuestionsController extends Controller
     public function edit($id)
     {
         //
+        $question = Question::findOrFail($id);
+
+        return view('questions.edit')->with('question', $question);
     }
 
     /**
@@ -79,9 +82,13 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AskQuestionRequest $request, $id)
     {
         //
+        $question = Question::findOrFail($id);
+        $question->update($request->only('title', 'body'));
+
+        return redirect()->route('questions.index')->with('success', 'Your Question Has Been Updated');
     }
 
     /**
