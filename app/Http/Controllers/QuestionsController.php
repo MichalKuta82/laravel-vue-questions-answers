@@ -56,9 +56,16 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $question)
     {
         //
+        // $question = Question::findOrFail($id)->first();
+        $question->increment('views');
+
+        // $question->views = $question->views + 1;
+        // $question->save();
+
+        return view('questions.show')->with('question', $question);
     }
 
     /**
@@ -67,10 +74,10 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $question)
     {
         //
-        $question = Question::findOrFail($id);
+        // $question = Question::findOrFail($id);
 
         return view('questions.edit')->with('question', $question);
     }
@@ -82,10 +89,10 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AskQuestionRequest $request, $id)
+    public function update(AskQuestionRequest $request, Question $question)
     {
         //
-        $question = Question::findOrFail($id);
+        // $question = Question::findOrFail($id);
         $question->update($request->only('title', 'body'));
 
         return redirect()->route('questions.index')->with('success', 'Your Question Has Been Updated');
@@ -97,10 +104,10 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
         //
-        $question = Question::findOrFail($id);
+        // $question = Question::findOrFail($id);
         $question->delete();
 
         return redirect()->route('questions.index')->with('success', 'Your Question Has Been Deleted');
