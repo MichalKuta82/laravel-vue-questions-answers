@@ -100,5 +100,9 @@ class QuestionsController extends Controller
     public function destroy($id)
     {
         //
+        $question = Question::findOrFail($id);
+        $question->delete();
+
+        return redirect()->route('questions.index')->with('success', 'Your Question Has Been Deleted');
     }
 }
